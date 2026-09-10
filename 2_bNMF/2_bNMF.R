@@ -1,6 +1,6 @@
-########
+#########
 #bNMF pipeline learn from Multi-ancestry polygenic mechanisms of type 2 diabetes
-########
+#########
 
 pacman::p_load(tidyverse, data.table, readxl, magrittr, dplyr, strex,
                rstudioapi, DT, kableExtra, GenomicRanges)
