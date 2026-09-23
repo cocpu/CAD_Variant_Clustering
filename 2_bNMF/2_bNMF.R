@@ -12,7 +12,7 @@ library(patchwork)
 library(ggdendro)
 library(legendry)
 
-cad_cleaned <- readRDS("0_dataprepare/CAD_small.rds")
+cad_cleaned <- readRDS("0_dataprepare/CAD_small.rds") #generate from FUMA genomic regions
 
 #######prepare rsID map########
 rsID_map <- cad_cleaned[,c("SNP","VAR_ID")]
