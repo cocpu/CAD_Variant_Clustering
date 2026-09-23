@@ -16,6 +16,7 @@ cad_cleaned <- MungeSumstats::format_sumstats(path = cad,convert_ref_genome="GRC
 
 cad_cleaned <- cad_cleaned[,c("SNP","CHR","BP","A1","A2","P","FRQ","BETA","SE","CASES","N")]
 cad_cleaned <- filter(cad_cleaned, nchar(A1) == 1 & nchar(A2) == 1)
+cad_cleaned <- cad_cleaned[as.numeric(cad_cleaned$FRQ) > 0.01,]
 saveRDS(cad_cleaned, "0_dataprepare/CAD.rds")
 
 cad_noUKB <- fread("raw_data/26343387-GCST003116-EFO_0000378.h.tsv.gz")
