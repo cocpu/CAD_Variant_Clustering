@@ -67,14 +67,24 @@ for(i in 1:nrow(job_vars)){
                position = final_tested$BP,
                type = "cc",
                N = 530185) #effective sample size of CAD GWAS
-    
-    D2 <- list(beta = trait_gwas$BETA,
+
+    if(gwas_trait[gwas_trait$trait == trait_name, ]$type == "quant"){
+        D2 <- list(beta = trait_gwas$BETA,
                varbeta = (trait_gwas$SE)^2,
                snp = trait_gwas$SNP,
                position = trait_gwas$BP,
                type = "quant",
                N = as.integer(gwas_trait[gwas_trait$trait == trait_name, ]$samplesize),
                MAF = ifelse(as.numeric(trait_gwas$FRQ) > 0.5, 1- as.numeric(trait_gwas$FRQ), as.numeric(trait_gwas$FRQ)))
+    }else{
+        D2 <- list(beta = trait_gwas$BETA,
+               varbeta = (trait_gwas$SE)^2,
+               snp = trait_gwas$SNP,
+               position = trait_gwas$BP,
+               type = "cc",
+               N = as.integer(gwas_trait[gwas_trait$trait == trait_name, ]$samplesize),
+               MAF = ifelse(as.numeric(trait_gwas$FRQ) > 0.5, 1- as.numeric(trait_gwas$FRQ), as.numeric(trait_gwas$FRQ)))
+    }
     
     coloc.res = coloc.abf(dataset1=D1,dataset2=D2)
     tmp2 <- coloc.res$summary
