@@ -132,14 +132,25 @@ for(i in 1:nrow(job_vars)){
       next
     }
     
-    D2 <- list(beta = trait_gwas$BETA,
+    if(gwas_trait[gwas_trait$trait == trait_name, ]$type == "quant"){
+        D2 <- list(beta = trait_gwas$BETA,
                varbeta = (trait_gwas$SE)^2,
                snp = trait_gwas$SNP,
                position = trait_gwas$BP,
                type = "quant",
                N = as.integer(gwas_trait[gwas_trait$trait == trait_name, ]$samplesize),
-               MAF = ifelse(trait_gwas$FRQ > 0.5, 1- trait_gwas$FRQ, trait_gwas$FRQ),
+               MAF = ifelse(as.numeric(trait_gwas$FRQ) > 0.5, 1- as.numeric(trait_gwas$FRQ), as.numeric(trait_gwas$FRQ)),
                LD = tmp2)
+    }else{
+        D2 <- list(beta = trait_gwas$BETA,
+               varbeta = (trait_gwas$SE)^2,
+               snp = trait_gwas$SNP,
+               position = trait_gwas$BP,
+               type = "cc",
+               N = as.integer(gwas_trait[gwas_trait$trait == trait_name, ]$samplesize),
+               MAF = ifelse(as.numeric(trait_gwas$FRQ) > 0.5, 1- as.numeric(trait_gwas$FRQ), as.numeric(trait_gwas$FRQ)),
+               LD = tmp2)
+    }
     
     S2 <- try(runsusie(D2,maxit=1000, repeat_until_convergence = F), silent = T)
     
